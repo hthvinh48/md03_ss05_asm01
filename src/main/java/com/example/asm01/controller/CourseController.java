@@ -1,6 +1,7 @@
 package com.example.asm01.controller;
 
 import com.example.asm01.dto.CourseResponse;
+import com.example.asm01.dto.CourseResponseV2;
 import com.example.asm01.dto.PageResponse;
 import com.example.asm01.model.CourseStatus;
 import com.example.asm01.response.ApiResponse;
@@ -40,6 +41,33 @@ public class CourseController {
                 );
 
         ApiResponse<PageResponse<CourseResponse>> response =
+                new ApiResponse<>(
+                        true,
+                        "Get courses successfully",
+                        courses
+                );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/v2")
+    public ResponseEntity<ApiResponse<PageResponse<CourseResponseV2>>> getCoursesV2(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "DESC") Sort.Direction direction,
+            @RequestParam(defaultValue = "ACTIVE") CourseStatus status
+    ) {
+        PageResponse<CourseResponseV2> courses =
+                courseService.getPagedCoursesByStatusV2(
+                        page,
+                        size,
+                        sortBy,
+                        direction,
+                        status
+                );
+
+        ApiResponse<PageResponse<CourseResponseV2>> response =
                 new ApiResponse<>(
                         true,
                         "Get courses successfully",

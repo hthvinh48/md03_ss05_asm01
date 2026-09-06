@@ -1,6 +1,7 @@
 package com.example.asm01.service;
 
 import com.example.asm01.dto.CourseResponse;
+import com.example.asm01.dto.CourseResponseV2;
 import com.example.asm01.dto.PageResponse;
 import com.example.asm01.model.Course;
 import com.example.asm01.model.CourseStatus;
@@ -118,6 +119,50 @@ public class CourseServiceImpl implements CourseService {
                 (int) responsePage.getTotalElements(),
                 responsePage.getTotalPages(),
                 responsePage.isLast()
+        );
+    }
+
+    @Override
+    public PageResponse<CourseResponseV2> getPagedCoursesByStatusV2(
+            int page,
+            int size,
+            String sortBy,
+            Sort.Direction direction,
+            CourseStatus status
+    ) {
+        if (page < 0) {
+            page = 0;
+        }
+
+        if (size <= 0) {
+            size = 10;
+        }
+
+        if (direction == null) {
+            direction = Sort.Direction.DESC;
+        }
+
+        if (sortBy == null || sortBy.isBlank()) {
+            sortBy = "id";
+        }
+
+        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
+            sortBy = "id";
+        }
+
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<CourseResponseV2> coursePage =
+                courseRepository.findAllByStatusProjection(status, pageable);
+
+        return new PageResponse<>(
+                coursePage.getContent(),
+                coursePage.getNumber(),
+                coursePage.getSize(),
+                (int) coursePage.getTotalElements(),
+                coursePage.getTotalPages(),
+                coursePage.isLast()
         );
     }
 }

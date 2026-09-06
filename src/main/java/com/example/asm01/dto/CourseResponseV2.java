@@ -1,0 +1,18 @@
+package com.example.asm01.dto;
+
+import com.example.asm01.model.CourseStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class CourseResponseV2 {
+
+    private Long id;
+    private String title;
+    private CourseStatus status;
+}
