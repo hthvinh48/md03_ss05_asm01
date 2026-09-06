@@ -1,12 +1,12 @@
 package com.example.asm01.service;
 
 import com.example.asm01.dto.CourseResponse;
-import org.springframework.data.domain.Page;
+import com.example.asm01.dto.PageResponse;
 import org.springframework.data.domain.Sort;
 
 public interface CourseService {
 
-    Page<CourseResponse> getPagedCourses(
+    PageResponse<CourseResponse> getPagedCourses(
             int page,
             int size,
             String sortBy,

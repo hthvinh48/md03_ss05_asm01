@@ -1,6 +1,7 @@
 package com.example.asm01.service;
 
 import com.example.asm01.dto.CourseResponse;
+import com.example.asm01.dto.PageResponse;
 import com.example.asm01.model.Course;
 import com.example.asm01.repository.CourseRepository;
 import org.springframework.data.domain.Page;
@@ -28,13 +29,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Page<CourseResponse> getPagedCourses(
+    public PageResponse<CourseResponse> getPagedCourses(
             int page,
             int size,
             String sortBy,
             Sort.Direction direction
     ) {
-
         if (page < 0) {
             page = 0;
         }
@@ -61,6 +61,16 @@ public class CourseServiceImpl implements CourseService {
 
         Page<Course> coursePage = courseRepository.findAll(pageable);
 
-        return coursePage.map(CourseResponse::fromEntity);
+        Page<CourseResponse> responsePage =
+                coursePage.map(CourseResponse::fromEntity);
+
+        return new PageResponse<>(
+                responsePage.getContent(),
+                responsePage.getNumber(),
+                responsePage.getSize(),
+                (int) responsePage.getTotalElements(),
+                responsePage.getTotalPages(),
+                responsePage.isLast()
+        );
     }
 }
