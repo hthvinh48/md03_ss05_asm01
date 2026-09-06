@@ -2,6 +2,7 @@ package com.example.asm01.service;
 
 import com.example.asm01.dto.CourseResponse;
 import com.example.asm01.dto.PageResponse;
+import com.example.asm01.model.CourseStatus;
 import org.springframework.data.domain.Sort;
 
 public interface CourseService {
@@ -11,5 +12,13 @@ public interface CourseService {
             int size,
             String sortBy,
             Sort.Direction direction
+    );
+
+    PageResponse<CourseResponse> getPagedCoursesByStatus(
+            int page,
+            int size,
+            String sortBy,
+            Sort.Direction direction,
+            CourseStatus status
     );
 }

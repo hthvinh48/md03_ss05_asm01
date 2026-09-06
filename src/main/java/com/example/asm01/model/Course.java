@@ -21,8 +21,9 @@ public class Course {
     @Column(nullable = false, length = 150)
     private String title;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private String status;
+    private CourseStatus status;
 
     @Column(name = "instructor_id")
     private Long instructorId;

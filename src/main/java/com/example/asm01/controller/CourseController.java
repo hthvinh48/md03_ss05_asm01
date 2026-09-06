@@ -2,10 +2,11 @@ package com.example.asm01.controller;
 
 import com.example.asm01.dto.CourseResponse;
 import com.example.asm01.dto.PageResponse;
+import com.example.asm01.model.CourseStatus;
 import com.example.asm01.response.ApiResponse;
 import com.example.asm01.service.CourseService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,14 +27,16 @@ public class CourseController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sortBy,
-            @RequestParam(defaultValue = "DESC") Sort.Direction direction
+            @RequestParam(defaultValue = "DESC") Sort.Direction direction,
+            @RequestParam(defaultValue = "ACTIVE") CourseStatus status
     ) {
         PageResponse<CourseResponse> courses =
-                courseService.getPagedCourses(
+                courseService.getPagedCoursesByStatus(
                         page,
                         size,
                         sortBy,
-                        direction
+                        direction,
+                        status
                 );
 
         ApiResponse<PageResponse<CourseResponse>> response =
